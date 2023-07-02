@@ -1,6 +1,6 @@
 import React from 'react'
-import PlaylistsContainer from './components/PlaylistsContainer'
-import AddButton from './components/AddButton'
+import PlaylistsContainer from '../components/PlaylistsContainer'
+import AddButton from '../components/AddButton'
 import './home.css'
 
 const home = () => {
