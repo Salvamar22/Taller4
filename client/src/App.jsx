@@ -7,6 +7,7 @@ import RegisterForm from './components/register';
 import NotFound from './pages/NotFound/NotFound';
 import { UserProvider } from './context/userContext';
 import Redirect from './pages/Redirect/RedirectUser';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (
