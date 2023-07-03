@@ -1,19 +1,6 @@
 const BASE_URL = 'http://localhost:8080/';
-import axios from 'axios';
 const services = {};
-
-/* services.login = async (identifier, password) => {
-    try {
-        const response = await axios.post(`${BASE_URL}api/login`, {
-            identifier,
-            password
-        });
-        return response.data;
-    } catch (error) {
-        console.log(error.response.data)
-        return error.response.data;
-    }
-} */
+import axios from 'axios';
 
 services.login = async (username, password) => {
     try {
@@ -37,4 +24,72 @@ services.login = async (username, password) => {
         console.log(error)
     }
 };
+
+services.createPlaylist = async (titleP, descriptionP) => {
+    try {
+        const formData = new URLSearchParams();
+        formData.append('title', titleP);
+        formData.append('description', descriptionP);
+
+        const response = await fetch(`${BASE_URL}api/playlist`, {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem('token')}`,
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: formData,
+        });
+        if (response.ok) {
+            const data = await response;
+            return data;
+        }
+        return {};
+    } catch (error) {
+        console.log(error)
+    }
+};
+
+
+services.getPlaylists = async (username, title) => {
+
+    /*    try {
+           const response = await axios.get(`${BASE_URL}api/user/playlist?User=${username}&title=${title}`, {
+               headers: {
+                   Authorization: `Bearer ${localStorage.getItem('token')}`,
+               },
+               params: {
+                   username,
+                   title
+               },
+           });
+           return response.data;
+       } catch (error) {
+           console.log(error);
+           throw new Error('Error al obtener las playlists');
+       }
+   }; */
+
+    try {
+        const response = await fetch(`${BASE_URL}api/user/playlist?User=${username}&title=${title}`, {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem('token')}`,
+            },
+
+        });
+        if (response.ok) {
+            const data = await response.json();
+            console.log(data)
+            return data;
+        }
+
+
+    } catch (error) {
+        console.error({ error });
+
+    }
+};
+
+
+
 export default services;

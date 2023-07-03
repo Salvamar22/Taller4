@@ -7,6 +7,7 @@ import RegisterForm from './components/register';
 import NotFound from './pages/NotFound/NotFound';
 import { UserProvider } from './context/userContext';
 import Redirect from './pages/Redirect/RedirectUser';
+import RequireAuth from './pages/PrivateRoute'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
@@ -17,8 +18,16 @@ function App() {
           <Route path="/" element={<Navigate replace to="/login" />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/register" element={<RegisterForm />} />
-          <Route path="/home" element={<Home />} />
           <Route path="/redirect" element={<Redirect />} />
+
+          <Route
+          path= "/home"
+          element= {
+            <RequireAuth>
+            <Home/> 
+          </RequireAuth>
+          }
+          />
           <Route path="/*" element={<NotFound />} />
         </Routes>
       </UserProvider>

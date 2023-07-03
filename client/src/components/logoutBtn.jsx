@@ -1,12 +1,16 @@
-import React from 'react'
-import { Button } from 'react-bootstrap'
+import React from 'react';
+import { Button } from 'react-bootstrap';
 
-const logoutBtn = () => {
+// eslint-disable-next-line react/prop-types
+const LogoutBtn = ({ onButton }) => {
+
     return (
         <div>
-            <Button variant="outline-danger">Logout</Button>{' '}
+            <Button variant="outline-danger" onClick={onButton}>
+                Logout
+            </Button>{' '}
         </div>
-    )
-}
+    );
+};
 
-export default logoutBtn
+export default LogoutBtn;

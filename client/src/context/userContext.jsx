@@ -6,9 +6,12 @@ const TOKEN_KEY = 'token';
 
 export const UserProvider = (props) => {
     const [token, setToken] = useState(undefined);
+    const [username, setUsername] = useState(undefined);
 
-    const setTokenAll = useCallback((token) => {
+    const setTokenAll = useCallback((token, username) => {
         localStorage.setItem(TOKEN_KEY, token);
+
+        setUsername(username);
         setToken(token);
     }, []);
 
@@ -16,9 +19,9 @@ export const UserProvider = (props) => {
         const loginAsync = async () => {
             try {
                 const tokenRes = await userService.login(username, password);
-                console.log(tokenRes);
+                console.log(tokenRes.token);
                 if (tokenRes) {
-                    setTokenAll(tokenRes);
+                    setTokenAll(tokenRes.token, username);
                     return true;
                 }
             } catch (error) {
@@ -39,10 +42,11 @@ export const UserProvider = (props) => {
     const value = useMemo(
         () => ({
             token: token,
+            username: username,
             login: login,
             logout: logout,
         }),
-        [token, login, logout]
+        [token, username, login, logout]
     );
 
     return <UserContext.Provider value={value} {...props} />;
