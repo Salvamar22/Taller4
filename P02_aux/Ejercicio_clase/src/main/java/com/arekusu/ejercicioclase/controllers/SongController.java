@@ -1,12 +1,15 @@
 	package com.arekusu.ejercicioclase.controllers;
 	
 	import java.util.List;
-	
-	import java.io.UnsupportedEncodingException;
+import java.util.stream.Collectors;
+import java.io.UnsupportedEncodingException;
 	import java.net.URLDecoder;
 	import java.util.ArrayList;
 	import org.springframework.beans.factory.annotation.Autowired;
-	import org.springframework.http.HttpStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 	import org.springframework.http.ResponseEntity;
 	import org.springframework.web.bind.annotation.*;
 
@@ -30,20 +33,24 @@ import com.arekusu.ejercicioclase.services.SongXPlaylistService;
 	    }
 	    
 	    @GetMapping("/")
-	    public ResponseEntity<?> getAllSongs() {
-	        List<Song> songs = songService.getAllSongs();
-	        List<SongDTO> songDTOs = new ArrayList<>();
+	    public ResponseEntity<?> getAllSongs(@RequestParam(defaultValue = "0") int page,
+	                                         @RequestParam(defaultValue = "10") int size) {
+	        Pageable pageable = PageRequest.of(page, size);
+	        Page<Song> songPage = songService.getAllSongs(pageable);
 
-	        for (Song song : songs) {
-	            SongDTO songDTO = new SongDTO();
-	            songDTO.setTitle(song.getTitle());
-	            songDTO.setTotalDurationInSeconds(song.getDuration());
-	            songDTOs.add(songDTO);
-	        }
+	        List<SongDTO> songDTOs = songPage.getContent().stream()
+	                .map(song -> {
+	                    SongDTO songDTO = new SongDTO();
+	                    songDTO.setCode(song.getCode());
+	                    songDTO.setTitle(song.getTitle());
+	                    songDTO.setTotalDurationInSeconds(song.getDuration());
+	                    return songDTO;
+	                })
+	                .collect(Collectors.toList());
 
-	        return new ResponseEntity<>(songs, HttpStatus.OK);
+	        return ResponseEntity.ok().body(songDTOs);
 	    }
-	
+
 	
 	    @GetMapping("/search/{title}")
 	    public ResponseEntity<?> searchSongsByTitle(@PathVariable String title) {

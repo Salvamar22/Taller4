@@ -1,15 +1,45 @@
-import React from 'react'
-import Playlist from './playlist'
+import React, { useState } from 'react';
+import Playlist from './playlist';
+
+import Song from './song';
+import services from '../services/user.services';
 
 const PlaylistsContainer = ({ playlists }) => {
-    return (
-        <div className='  bg-slate-300 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-3/4 h-auto rounded-xl overflow-auto'>
-            {console.log(playlists)}
-            {playlists.map((pl) => (
-                <Playlist key={pl.code} title={pl.title} />
-            ))}
-        </div>
-    )
-}
 
-export default PlaylistsContainer
+/* 
+  const fetchPlSongs = async (playlistId) => {
+    try {
+        const response = await services.getPlaylistSongs(playlistId);
+        
+        setSongs(response.songs);
+        console.log(songs);
+        return response.songs;
+    } catch (error) {
+        console.log(error);
+    }
+};
+ */
+
+  return (
+    <div className="bg-slate-300 w-3/4 h-auto rounded-xl overflow-y-auto overflow-x-hidden p-2 ">
+      {playlists.map((playlist) => (
+        <Playlist
+          key={playlist.code}
+          title={playlist.title}
+          description={playlist.description}
+          plDuration={playlist.playlistDuration}
+          playlistId={playlist.code}
+        />
+      ))}
+{/*       {selectedPlaylist && (
+        <div className="song-list ml-4 w-1/2 ">
+          {songs.map((song) => (
+            <Song key={song.code} title={song.title} duration={song.songDuration} />
+          ))}
+        </div>
+      )} */}
+    </div>
+  );
+};
+
+export default PlaylistsContainer;

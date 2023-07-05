@@ -1,6 +1,9 @@
 package com.arekusu.ejercicioclase.models.dtos;
 
+import java.util.UUID;
+
 public class SongDTO {
+	private UUID code;
     private String title;
     private int minutes;
     private int seconds;
@@ -50,4 +53,12 @@ public class SongDTO {
     public String getSongDuration() {
         return String.format("%02d:%02d", minutes, seconds);
     }
+
+	public UUID getCode() {
+		return code;
+	}
+
+	public void setCode(UUID code) {
+		this.code = code;
+	}
 }

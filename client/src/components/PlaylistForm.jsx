@@ -31,6 +31,7 @@ const PlaylistForm = ({ onCancel }) => {
             console.error('Error al realizar la petición:', error);
             alert('Hubo un error al crear la playlist.');
         }
+        window.location.reload();
     };
 
     const handleCancel = () => {

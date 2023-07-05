@@ -10,6 +10,7 @@ import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -67,7 +68,8 @@ public class PlaylistController {
         this.userRepository = userRepository;
         this.songXPlaylistService = songXPlaylistService;
     }
-
+    
+    @CrossOrigin(origins = "http://localhost:5173")
     @PostMapping("/playlist")
     public ResponseEntity<?> savePlaylist(@RequestParam("title") String title, @RequestParam("description") String description, HttpServletRequest request) {
     	String tokenHeader = request.getHeader("Authorization");

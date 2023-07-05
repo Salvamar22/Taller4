@@ -89,7 +89,80 @@ services.getPlaylists = async (username, title) => {
 
     }
 };
+services.getSongs = async (page) => {
+    try {
+      const size=10;
+      const response = await axios.get(`${BASE_URL}songs/` , {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        params: {
+             page,
+             size },
+      });
+      console.log(response.data)
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
+  };
 
 
+  services.addSongToPlaylist = async (playlistCode, songCode) => {
+    try {
+        const formData = new URLSearchParams();
+        formData.append('songCode', songCode);
+
+        const response = await fetch(`${BASE_URL}api/playlist/${playlistCode}`, {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem('token')}`,
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: formData,
+        });
+        if (response.status === 201) {
+            const data = await response;
+            return data;
+        }
+        return {};
+    } catch (error) {
+        console.log(error)
+    }
+
+    /* try {
+        const params = new URLSearchParams();
+        params.append('songCode', songCode);
+
+      const response = await axios.post(`${BASE_URL}api/playlist/${playlistCode}`, {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+            'content-type': 'application/x-www-form-urlencoded'
+      },
+        body: {
+            params
+        },
+    }
+      );
+      console.log(response.data); 
+    } catch (error) {
+      console.error(error);
+    } */
+  };
+
+  services.getPlaylistSongs = async (playlistCode) => {
+    try {
+        const response = await axios.get(`${BASE_URL}api/playlist/${playlistCode}`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+        });
+        return response.data;
+    } catch (error) {
+        console.log(error);
+        throw new Error('Error al obtener las playlists');
+    }
+};
 
 export default services;

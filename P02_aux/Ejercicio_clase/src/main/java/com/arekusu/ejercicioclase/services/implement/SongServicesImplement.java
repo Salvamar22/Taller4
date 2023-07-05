@@ -4,7 +4,9 @@
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-	import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
     import com.arekusu.ejercicioclase.models.dtos.SongDTO;
     import com.arekusu.ejercicioclase.models.entities.Song;
@@ -24,8 +26,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 	    }
 
 	    @Override
-	    public List<Song> getAllSongs() {
-	        return songRepository.findAll();
+	    public Page<Song> getAllSongs(Pageable pageable) {
+	        return songRepository.findAll(pageable);	
 	    }
 
 	    @Override

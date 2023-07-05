@@ -4,7 +4,7 @@ import LogoutBtn from '../components/logoutBtn';
 import { useNavigate } from 'react-router-dom';
 import PlaylistForm from './PlaylistForm';
 
-const AddButton = ({onPlaylistAdded}) => {
+const AddButton = () => {
     const { logout } = useUserContext();
     const navigate = useNavigate();
 
@@ -12,7 +12,6 @@ const AddButton = ({onPlaylistAdded}) => {
 
     const handleButtonClick = () => {
         setShowForm(true);
-        onPlaylistAdded();
     };
 
     const handleLogout = () => {
@@ -28,11 +27,11 @@ const AddButton = ({onPlaylistAdded}) => {
     const handleCancelForm = () => {
         setShowForm(false);
     };
-    
+
 
 
     return (
-        <div className='w-3/4 justify-between flex absolute'>
+        <div className='w-3/4 justify-between flex '>
             <button className='bg-slate-500 w-36 h-10 rounded-md' onClick={handleButtonClick}>Nueva playlist</button>
             {showForm && <PlaylistForm onCancel={handleCancelForm} />}
             <LogoutBtn onButton={handleLogoutClick} />
